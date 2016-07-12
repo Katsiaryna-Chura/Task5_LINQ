@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25123.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Task5_LINQtoXML", "Task5_LINQtoXML\Task5_LINQtoXML.csproj", "{DDEC2FB5-500E-43EA-B6C0-38E9E9800D7E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LinqToXml", "LinqToXml\LinqToXml.csproj", "{A16C4ED1-C07E-49F5-887A-F0BCF6E52DF3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomersAnalyzerTests", "CustomersAnalyzerTests\CustomersAnalyzerTests.csproj", "{9C1B1316-E1A6-4C6A-B6C8-7380DDD61305}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DDEC2FB5-500E-43EA-B6C0-38E9E9800D7E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DDEC2FB5-500E-43EA-B6C0-38E9E9800D7E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DDEC2FB5-500E-43EA-B6C0-38E9E9800D7E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DDEC2FB5-500E-43EA-B6C0-38E9E9800D7E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A16C4ED1-C07E-49F5-887A-F0BCF6E52DF3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A16C4ED1-C07E-49F5-887A-F0BCF6E52DF3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A16C4ED1-C07E-49F5-887A-F0BCF6E52DF3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A16C4ED1-C07E-49F5-887A-F0BCF6E52DF3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9C1B1316-E1A6-4C6A-B6C8-7380DDD61305}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9C1B1316-E1A6-4C6A-B6C8-7380DDD61305}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9C1B1316-E1A6-4C6A-B6C8-7380DDD61305}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9C1B1316-E1A6-4C6A-B6C8-7380DDD61305}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

@@ -11,54 +11,16 @@ namespace Task5_LINQ
     {
         List<BigInteger> fibList;
 
-        public FibonacciAnalyzer()
+        public FibonacciAnalyzer(List<BigInteger> fibList)
         {
-            fibList = new List<BigInteger>();
-            Initialize();
-        }
-
-        public void Initialize()
-        {
-            for (int i = 0; i < 200; i++)
-            {
-                fibList.Add(Fibonacci(i));
-            }
-        }
-
-        public BigInteger Fibonacci(int n)
-        {
-            int oldN = 0;
-            if (n < 0)
-            {
-                oldN = n;
-                n = -n;
-            }
-            BigInteger a = BigInteger.Zero;
-            BigInteger b = BigInteger.One;
-            for (int i = 31; i >= 0; i--)
-            {
-                BigInteger d = a * (b * 2 - a);
-                BigInteger e = a * a + b * b;
-                a = d;
-                b = e;
-                if ((((uint)n >> i) & 1) != 0)
-                {
-                    BigInteger c = a + b;
-                    a = b;
-                    b = c;
-                }
-            }
-            if ((oldN < 0) && (oldN % 2 != 0))
-            {
-                return -a;
-            }
-            return a;
+            this.fibList = new List<BigInteger>();
+            this.fibList.AddRange(fibList);
         }
 
         public List<BigInteger> GetPrimeNumbers()
         {
             return fibList
-                .Where((n,i) => n.IsFibonacciNumberPrime(i))
+                .Where((n,i) => n.IsProbablePrime())
                 .ToList();
         }
 
@@ -117,17 +79,6 @@ namespace Task5_LINQ
         {
             return fibList
                 .Average(n => n.ToString().Count(c => c == '0'));
-        }
-
-        public string GetListOfFibonacciNumbers()
-        {
-            StringBuilder fibNumbers = new StringBuilder();
-            fibNumbers.Append("List of Fibonacci numbers:\n");
-            foreach (var fibNumber in fibList)
-            {
-                fibNumbers.Append($"{fibNumber}\n");
-            }
-            return fibNumbers.ToString();
         }
     }
 }

@@ -12,18 +12,19 @@ namespace Task5_LINQ
     {
         static void Main(string[] args)
         {
-            FibonacciAnalyzer analyzer = new FibonacciAnalyzer();
+            FibonacciGenerator generator = new FibonacciGenerator();
+            FibonacciAnalyzer analyzer = new FibonacciAnalyzer(generator.GetFibonacciNumbers(200));
 
-            Console.WriteLine(analyzer.GetListOfFibonacciNumbers());
+            Console.WriteLine(generator.GetViewOfFibonacciNumbers());
             Console.WriteLine();
 
-            //List<BigInteger> primes = analyzer.GetPrimeNumbers();
-            //Console.WriteLine($"Count of prime numbers = {primes.Count}");
-            //Console.WriteLine("Prime numbers:");
-            //foreach(var p in primes)
-            //{
-            //    Console.WriteLine(p);
-            //}
+            List<BigInteger> primes = analyzer.GetPrimeNumbers();
+            Console.WriteLine($"Count of prime numbers = {primes.Count}");
+            Console.WriteLine("Prime numbers:");
+            foreach (var p in primes)
+            {
+                Console.WriteLine(p);
+            }
 
             List<BigInteger> numbersDivisibleBySumOfDigits = analyzer.GetNumbersDivisibleBySumOfDigits();
             Console.WriteLine($"Count of numbers divisible by the sum of its digits = {numbersDivisibleBySumOfDigits.Count}");
