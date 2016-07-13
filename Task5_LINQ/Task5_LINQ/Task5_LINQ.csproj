@@ -47,6 +47,7 @@
     <Compile Include="FibonacciAnalyzer.cs" />
     <Compile Include="BigIntegerExtensions.cs" />
     <Compile Include="FibonacciGenerator.cs" />
+    <Compile Include="Menu.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

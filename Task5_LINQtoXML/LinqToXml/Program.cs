@@ -74,6 +74,7 @@ namespace LinqToXml
             //    Console.WriteLine($"Key: {item.Key} - Value: {item.Value}");
 
             //var d3 = a.GetCustomersActivityByMonthsOfYears();
+            //Console.WriteLine(d3.Count);
             //Console.WriteLine("---activity---");
             //foreach (var item in d3)
             //{

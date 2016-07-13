@@ -10,18 +10,18 @@ namespace Task5_LINQ
 {
     public static class BigIntegerExtensions
     {
-        public static bool IsPrime(this BigInteger n)
-        {
-            if (n < 2) return false;
-            if (n % 2 == 0) return (n == 2);
-            double root = n.Sqrt();
-            for (BigInteger i = 3; (double)i <= root; i += 2)
-            {
-                if (n % i == 0)
-                    return false;
-            }
-            return true;
-        }
+        //public static bool IsPrime(this BigInteger n)
+        //{
+        //    if (n < 2) return false;
+        //    if (n % 2 == 0) return (n == 2);
+        //    double root = n.Sqrt();
+        //    for (BigInteger i = 3; (double)i <= root; i += 2)
+        //    {
+        //        if (n % i == 0)
+        //            return false;
+        //    }
+        //    return true;
+        //}
 
         //public static bool IsFibonacciNumberPrime(this BigInteger n, BigInteger index)
         //{

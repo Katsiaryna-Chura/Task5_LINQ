@@ -44,7 +44,7 @@ namespace Task5_LINQ
         public List<BigInteger> GetFibonacciNumbers(int n)
         {
             fibList = new List<BigInteger>();
-            for (int i = 0; i < 200; i++)
+            for (int i = 0; i < n; i++)
             {
                 fibList.Add(Fibonacci(i));
             }
