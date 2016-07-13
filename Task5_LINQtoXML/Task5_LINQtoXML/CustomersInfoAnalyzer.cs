@@ -164,15 +164,5 @@ namespace Task5_LINQtoXML
                 g => g.ToList().Count
                 );
         }
-
-        //public void GetSumsOfOrders()
-        //{
-        //    List<double> sums = new List<double>();
-        //    foreach(var c in Customers)
-        //        sums.Add(c.Element("orders").Elements("order").Sum(order => GetTotalValueOfOrder(order)));
-        //    sums = sums.OrderBy(sum => sum).ToList();
-        //    foreach(var s in sums)
-        //        Console.WriteLine(s);
-        //}
     }
 }
