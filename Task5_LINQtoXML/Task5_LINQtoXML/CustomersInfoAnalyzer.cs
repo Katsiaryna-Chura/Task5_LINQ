@@ -10,31 +10,41 @@ namespace Task5_LINQtoXML
 {
     public class CustomersInfoAnalyzer
     {
-        public List<XElement> Customers { get; private set; }
-        public List<XElement> OrdersList { get; private set; }
+        public List<XElement> Customers { get; set; }
+        public List<XElement> OrdersList { get; set; }
         NumberFormatInfo nfi;
 
         public CustomersInfoAnalyzer(string filePath)
         {
-            nfi = CultureInfo.CurrentCulture.NumberFormat;
             XDocument document = XDocument.Load(filePath);
             Customers = document.Root.Elements().ToList();
             OrdersList = new List<XElement>();
-            OrderListInitialize();
+            nfi = CultureInfo.CurrentCulture.NumberFormat;
         }
 
-        public void OrderListInitialize()
+        private void OrderListInitialize()
         {
+            OrdersList.Clear();
             foreach (var customer in Customers)
             {
                 OrdersList.AddRange(customer.Element("orders").Elements("order"));
             }
         }
+        
+        private double GetTotalValueOfOrder(XElement order)
+        {
+            return double.Parse(order.Element("total").Value.Replace(',', '.').Replace('.', nfi.NumberDecimalSeparator[0]));
+        }
+
+        private double GetSumOfCustomerOrders(XElement customer)
+        {
+            return customer.Element("orders").Elements("order").Sum(order => GetTotalValueOfOrder(order));
+        }
 
         public List<XElement> GetCustomersWithSumOfOrdersBiggerThanX(double x)
         {
             return Customers
-                .Where(c => c.Element("orders").Elements("order").Sum(order => double.Parse(order.Element("total").Value.Replace(',', '.').Replace('.', nfi.NumberDecimalSeparator[0]))) > x)
+                .Where(c => GetSumOfCustomerOrders(c) > x)
                 .ToList();
         }
 
@@ -52,7 +62,7 @@ namespace Task5_LINQtoXML
         public List<XElement> FindCustomersWithAnyOrderBiggerThanX(double x)
         {
             return Customers
-                .Where(c => c.Element("orders").Elements("order").Any(order => (double.Parse(order.Element("total").Value.Replace(',', '.').Replace('.', nfi.NumberDecimalSeparator[0]))) > x))
+                .Where(c => c.Element("orders").Elements("order").Any(order => GetTotalValueOfOrder(order) > x))
                 .ToList();
         }
 
@@ -65,8 +75,8 @@ namespace Task5_LINQtoXML
             })
             .ToDictionary(
                 g => g.Customer,
-                g => $"{g.StartDate.Year:0000}-{g.StartDate.Month:00}"
-                //g => g.StartDate == DateTime.MinValue ? "this customer hasn't made orders yet" : $"{g.StartDate.Month:00}-{g.StartDate.Year:0000}"
+                g => g.StartDate.ToString("yyyy-MM")
+                //g => g.StartDate == DateTime.MinValue ? "this customer hasn't made orders yet" : g.StartDate.ToString("yyyy-MM")
                 );
 
         }
@@ -77,7 +87,7 @@ namespace Task5_LINQtoXML
             {
                 Customer = c,
                 StartDate = Convert.ToDateTime(c.Element("orders").Elements("order").FirstOrDefault()?.Element("orderdate")?.Value),
-                SumOfOrders = c.Element("orders").Elements("order").Sum(order => double.Parse(order.Element("total").Value.Replace(',', '.').Replace('.', nfi.NumberDecimalSeparator[0])))
+                SumOfOrders = GetSumOfCustomerOrders(c)
             })
            .OrderBy(info => info.StartDate.Year)
            .ThenBy(info => info.StartDate.Month)
@@ -88,37 +98,14 @@ namespace Task5_LINQtoXML
 
         }
 
-        //public Dictionary<XElement, string> GetSortedListOfCustomers()
-        //{
-        //    return Customers.Select(c => new
-        //    {
-        //        Customer = c,
-        //        StartDate = Convert.ToDateTime(c.Element("orders").Elements("order").FirstOrDefault()?.Element("orderdate")?.Value),
-        //        SumOfOrders = c.Element("orders").Elements("order").Sum(order => double.Parse(order.Element("total").Value.Replace(',', '.').Replace('.', nfi.NumberDecimalSeparator[0])))
-        //    })
-        //    .OrderBy(info => info.StartDate.Year)
-        //    .ThenBy(info => info.StartDate.Month)
-        //    .ThenByDescending(info => info.SumOfOrders)
-        //    .ThenBy(info => info.Customer.Element("name").Value)
-        //    .Select(info => new
-        //    {
-        //        customer = info.Customer,
-        //        description = $"{info.Customer.Element("name").Value,-40} StartDate: {info.StartDate,-15:yyyy-MM} Sum of orders = {info.SumOfOrders}"
-        //    })
-        //    .ToDictionary(
-        //        s => s.customer,
-        //        s => s.description
-        //        );
-        //}
-
         public List<XElement> GetCustomersWithIncompleteInfo()
         {
             return Customers
                 .Where(c =>
                 c.Element("postalcode") == null
-                || !c.Element("postalcode").Value.All(char.IsDigit)
+                || !c.Element("postalcode").Value.Trim().All(char.IsDigit)
                 || c.Element("region") == null
-                || (!(c.Element("phone").Value.Contains('(') && c.Element("phone").Value.Contains('('))))
+                || (!(c.Element("phone").Value.Contains('(') && c.Element("phone").Value.Contains(')'))))
                 .ToList();
         }
 
@@ -128,7 +115,7 @@ namespace Task5_LINQtoXML
                 .GroupBy(c => c.Element("city").Value)
                 .ToDictionary(
                 g => g.Key,
-                g => g.ToList().Average(c => c.Element("orders").Elements("order").Sum(order => double.Parse(order.Element("total").Value.Replace(',', '.').Replace('.', nfi.NumberDecimalSeparator[0]))))
+                g => (g.ToList().Sum(c => GetSumOfCustomerOrders(c))) / (double)(g.ToList().Sum(c => c.Element("orders").Elements("order").Count()))
                 );
         }
 
@@ -144,6 +131,7 @@ namespace Task5_LINQtoXML
 
         public Dictionary<int, int> GetCustomersActivityByMonths()
         {
+            OrderListInitialize();
             return OrdersList
                 .GroupBy(order => Convert.ToDateTime(order?.Element("orderdate")?.Value).Month)
                 .OrderBy(g => g.Key)
@@ -155,6 +143,7 @@ namespace Task5_LINQtoXML
 
         public Dictionary<int, int> GetCustomersActivityByYears()
         {
+            OrderListInitialize();
             return OrdersList
                 .GroupBy(order => Convert.ToDateTime(order?.Element("orderdate")?.Value).Year)
                 .OrderBy(g => g.Key)
@@ -166,6 +155,7 @@ namespace Task5_LINQtoXML
 
         public Dictionary<string, int> GetCustomersActivityByMonthsOfYears()
         {
+            OrderListInitialize();
             return OrdersList
                 .GroupBy(order => Convert.ToDateTime(order?.Element("orderdate")?.Value).Date.ToString("yyyy-MM"))
                 .OrderBy(g => g.Key)
@@ -174,5 +164,15 @@ namespace Task5_LINQtoXML
                 g => g.ToList().Count
                 );
         }
+
+        //public void GetSumsOfOrders()
+        //{
+        //    List<double> sums = new List<double>();
+        //    foreach(var c in Customers)
+        //        sums.Add(c.Element("orders").Elements("order").Sum(order => GetTotalValueOfOrder(order)));
+        //    sums = sums.OrderBy(sum => sum).ToList();
+        //    foreach(var s in sums)
+        //        Console.WriteLine(s);
+        //}
     }
 }

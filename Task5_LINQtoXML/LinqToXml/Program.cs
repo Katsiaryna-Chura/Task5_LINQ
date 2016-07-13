@@ -13,6 +13,7 @@ namespace LinqToXml
         static void Main(string[] args)
         {
             CustomersInfoAnalyzer a = new CustomersInfoAnalyzer(Data.Path);
+            //a.GetSumsOfOrders();
             //List<XElement> customersWithOrders = a.GetCustomersWithSumOfOrdersBiggerThanX(100000);
             //foreach (var c in customersWithOrders)
             //{
@@ -44,25 +45,21 @@ namespace LinqToXml
 
             //var custWithDates = a.GetCustomersWithStartDates();
             //var dates = custWithDates.Select(d => d.Value).ToList();
-            //Console.WriteLine(dates.Where(d=>Convert.ToDateTime(d) == DateTime.MinValue).Count());
+            //Console.WriteLine(dates.Where(d => Convert.ToDateTime(d) == DateTime.MinValue).Count());
             //foreach (var customer in custWithDates)
             //{
             //    Console.WriteLine($"Customer:{customer.Key.Element("name").Value,-50} - Start date: {customer.Value}");
             //    Console.WriteLine(Convert.ToDateTime(customer.Value) == DateTime.MinValue);
             //}
 
-            //var dictionary = a.GetSortedListOfCustomers();
-            //foreach (var item in dictionary)
-            //    Console.WriteLine($"{item.Key.Element("name").Value,-30} - {item.Value}");
             //var list = a.GetSortedListOfCustomers();
             //for(int i =0;i<7;i++)
             //{
             //    Console.WriteLine(list[i]);
-            //    Console.WriteLine();
-            //    Console.WriteLine();
             //}
 
             //var list = a.GetCustomersWithIncompleteInfo();
+            //Console.WriteLine(list.Count);
             //foreach (var item in list)
             //    Console.WriteLine(item);
 
